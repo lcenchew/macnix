@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# 1. Detect Hardware Type
+MODEL=$(sysctl -n hw.model)
+if [[ $MODEL == *"MacBook"* ]]; then
+    DETECTED="macbook"
+else
+    DETECTED="macmini"
+fi
+
+echo "--- Hardware Detection ---"
+echo "Detected hardware: $MODEL"
+read -p "Use config for: (macbook/macmini) [$DETECTED]: " SELECTION
+SELECTION=${SELECTION:-$DETECTED}
+
+# 2. Identify Username
+DEFAULT_USER=$(whoami)
+read -p "Enter your macOS Username [$DEFAULT_USER]: " USERNAME
+USERNAME=${USERNAME:-$DEFAULT_USER}
+
+# 3. File Operations
+echo "
+Preparing configuration for $SELECTION..."
+
+# Copy the template to the active filename
+cp "${SELECTION}.nix" current-host.nix
+
+# Replace the username in flake.nix
+# Note: We use a temp file or sed -i '' for macOS compatibility
+sed -i '' "s/user = \".*\";/user = \"$USERNAME\";/" flake.nix
+
+# 4. Activation
+echo "Applying Nix configuration..."
+nix run nix-darwin -- switch --flake ".#current-host"
+
+echo "
+Done! Machine configured as current-host using $SELECTION.nix
+"
