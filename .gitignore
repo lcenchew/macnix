@@ -1,3 +1,6 @@
+# This file is autocreated during setup
+current-host.nix 
+
 # Ignore build outputs from performing a nix-build or `nix build` command
 result
 result-*
