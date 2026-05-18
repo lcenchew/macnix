@@ -19,11 +19,9 @@
     ];
   };
 
-  # for nix-darwin to work with the Nix daemon
-  services.nix-daemon.enable = true;
-
-  # Enable Flakes and the new 'nix' command line tool
-  nix.settings.experimental-features = "nix-command flakes";
+  # Determinate uses its own daemon to manage the Nix installation
+  # Turn off nix-darwin’s management of the Nix installation
+  nix.enable = false;
 
   # Used for backwards compatibility, read the changelog before changing.
   # $ darwin-rebuild changelog
