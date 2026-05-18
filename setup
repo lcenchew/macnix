@@ -8,6 +8,13 @@ else
     DETECTED="macmini"
 fi
 
+ARCH=$(uname -m)
+if [[ "$ARCH" == "arm64" ]]; then
+    PLATFORM="aarch64-darwin"
+else
+    PLATFORM="x86_64-darwin"
+fi
+
 echo "--- Hardware Detection ---"
 echo "Detected hardware: $MODEL"
 read -p "Use config for: (macbook/macmini) [$DETECTED]: " SELECTION
@@ -27,11 +34,15 @@ cp "${SELECTION}.nix" current-host.nix
 
 # Replace the username in flake.nix
 # Note: We use a temp file or sed -i '' for macOS compatibility
-sed -i '' "s/user = \".*\";/user = \"$USERNAME\";/" flake.nix
+sed -i '' "s/user = \".*\"/user = \"$USERNAME\"/" flake.nix
+
+# Replace the hostPlatform and primaryUser in current-host.nix
+sed -i '' "s/hostPlatform = \".*\"/hostPlatform = \"$USERNAME\"/" current-host.nix
+sed -i '' "s/primaryUser = \".*\"/primaryUser = \"$USERNAME\"/" current-host.nix
 
 # 4. Activation
 echo "Applying Nix configuration..."
-nix run nix-darwin -- switch --flake ".#current-host"
+sudo -H nix run nix-darwin -- switch --flake "path:.#current-host"
 
 echo "
 Done! Machine configured as current-host using $SELECTION.nix

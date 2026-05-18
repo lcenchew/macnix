@@ -1,5 +1,8 @@
 { pkgs, ... }: {
   # MacBook specific settings
+  nixpkgs.hostPlatform = "PLATFORM_REPLACE";
+
+  system.primaryUser = "USER_REPLACE";
   system.defaults = {
     # Trackpad
     trackpad.Clicking = true;           # Enable tap-to-click
