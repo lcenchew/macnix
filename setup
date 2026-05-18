@@ -37,7 +37,7 @@ cp "${SELECTION}.nix" current-host.nix
 sed -i '' "s/user = \".*\"/user = \"$USERNAME\"/" flake.nix
 
 # Replace the hostPlatform and primaryUser in current-host.nix
-sed -i '' "s/hostPlatform = \".*\"/hostPlatform = \"$USERNAME\"/" current-host.nix
+sed -i '' "s/hostPlatform = \".*\"/hostPlatform = \"$PLATFORM\"/" current-host.nix
 sed -i '' "s/primaryUser = \".*\"/primaryUser = \"$USERNAME\"/" current-host.nix
 
 # 4. Activation
