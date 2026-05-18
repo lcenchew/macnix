@@ -17,7 +17,7 @@
           {
             nix-homebrew = {
               enable = true;
-              enableRosetta = true;  # for Apple Silicon Macs
+              # enableRosetta = true;  # for Apple Silicon Macs
               user = "USER_REPLACE"; # updated by apply script
               autoMigrate = true;    # migrates existing brew if any
             };
