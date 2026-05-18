@@ -19,7 +19,7 @@ This repository setup a new macOS using nix-darwin and [flakes](https://wiki.nix
 3. Setup Nix config
 
    ```
-   chmod +x apply
+   chmod +x setup
    ./setup
    ```
 
