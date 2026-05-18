@@ -3,12 +3,20 @@
 This repository setup a new macOS using nix-darwin and [flakes](https://wiki.nixos.org/wiki/Flakes).  
 
 ## 🛠 Initial Setup/Reinstall
-1. Install Nix
+1. Install Nix 
+   Ref: https://github.com/DeterminateSystems/nix-installer
    ```
-   curl -L https://install.determinate.systems/nix | sh -s -- install
+   curl -fsSL https://install.determinate.systems/nix | sh -s -- install
    ```
    
-2. Copy config files
+2. Install xcode-select 
+   Required by Homebrew later. May still require manual agreement to License 
+   ```
+   xcode-select --install
+   softwareupdate -i -a --agree-to-license
+   ```
+
+3. Copy config files
 
    Copy is used here instead of clone since git is not included with a new Mac install.
    ```
@@ -36,8 +44,8 @@ This repository setup a new macOS using nix-darwin and [flakes](https://wiki.nix
 ```
 
 ## ❔ Nix vs Brew
-Nix: Use for shell, terminal tools (Git, Neovim, Python, Node), and system settings (Dock, Trackpad).
-Homebrew (via Nix): Use for GUI "Apps" normally found /Applications folder.
+- Nix: Use for shell, terminal tools (Git, Neovim, Python, Node), and system settings (Dock, Trackpad).
+- Homebrew (via Nix): Use for GUI "Apps" normally found /Applications folder.
 
 ## ⚠️  Notes
 - **Experimental Features**: This config enables `nix-command` and `flakes` by default.
