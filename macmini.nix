@@ -1,14 +1,14 @@
 { pkgs, ... }: {
-  # Specific settings for Mac Mini (Performance/Desktop etc.)
+  # Mac Mini specific settings
   system.defaults = {
-    # Faster key repeat 
-    NSGlobalDomain.InitialKeyRepeat = 15; 
-    NSGlobalDomain.KeyRepeat = 2;
+    # Keyboard 
+    # NSGlobalDomain.InitialKeyRepeat = 15; 
+    # NSGlobalDomain.KeyRepeat = 2;
     
-    # Desktop specific 
-    dock.static-only = true; # Only show active apps in dock
+    # Dock 
+    # dock.static-only = true; # Only show active apps in dock
   };
 
-  # Apps installed by Homebrew
-  # homebrew.casks = [ "" "" ];
+  # Add Homebrew Applications for Mac Mini only here
+  # homebrew.casks = [ "" ];
 }

@@ -1,10 +1,13 @@
 { pkgs, ... }: {
   # MacBook specific settings
   system.defaults = {
+    # Trackpad
     trackpad.Clicking = true;           # Enable tap-to-click
-    dock.autohide = false;               # Autohide dock to save screen real estate
+     
+    # Dock
+    # dock.autohide = false;              # Autohide dock to save screen real estate
   };
 
-  # Add Applications installed by Homebrew here
+  # Add Homebrew Applications for Macbook only here
   # homebrew.casks = [ "" ];
 }
