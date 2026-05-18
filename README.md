@@ -4,13 +4,16 @@ This repository setup a new macOS using nix-darwin and [flakes](https://wiki.nix
 
 ## 🛠 Initial Setup/Reinstall
 1. Install Nix 
+
    Ref: https://github.com/DeterminateSystems/nix-installer
    ```
    curl -fsSL https://install.determinate.systems/nix | sh -s -- install
    ```
-   
+   If the first run fails, try running it again.
+
 2. Install xcode-select 
-   Required by Homebrew later. May still require manual agreement to License 
+
+   Required by Homebrew later. Still requires a manual agreement to License. 
    ```
    xcode-select --install
    softwareupdate -i -a --agree-to-license
@@ -18,7 +21,7 @@ This repository setup a new macOS using nix-darwin and [flakes](https://wiki.nix
 
 3. Copy config files
 
-   Copy is used here instead of clone since git is not included with a new Mac install.
+   Copy is used here instead of clone. Init a repo to backup the final settings.
    ```
    mkdir -p ~/.config/nix-config && cd ~/.config/nix-config
    curl -L https://github.com/lcenchew/macnix/archive/main.tar.gz | tar -xz --strip-components=1
@@ -26,7 +29,9 @@ This repository setup a new macOS using nix-darwin and [flakes](https://wiki.nix
    
 3. Setup Nix config
 
+   Refresh the env to take in changes from Nix install. Then run the setup logic.
    ```
+   exec zsh
    chmod +x setup
    ./setup
    ```
