@@ -55,3 +55,15 @@ This repository setup a new macOS using nix-darwin and [flakes](https://wiki.nix
 ## ⚠️  Notes
 - **Experimental Features**: This config enables `nix-command` and `flakes` by default.
 - **system.stateVersion**: Do not update this value even when updating Nixpkgs. It represents the compatibility state of the system when first installed. Changing it may result in data migration issues.
+
+## Maintenance and Management
+
+Some basics to maintain and manage the system after installing.
+
+### Update
+
+```
+cd .config/nix-config
+nix flake update
+sudo darwin-rebuild switch --flake .#current-host
+```
