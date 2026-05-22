@@ -18,6 +18,7 @@
       "google-chrome"
       "brave-browser"
       "firefox"
+      "tailscale-app"
     ];
   };
 
