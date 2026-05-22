@@ -10,7 +10,9 @@
   # Homebrew management
   homebrew = {
     enable = true;
-    onActivation.cleanup = "zap"; # Removes apps not listed here for total control
+
+    # https://nix-darwin.github.io/nix-darwin/manual/#opt-homebrew.onActivation.cleanup
+    onActivation.cleanup = "zap"; # Removes apps not listed here to fully manage by Nix
 
     casks = [
       "google-chrome"

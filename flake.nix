@@ -14,14 +14,6 @@
           ./common.nix
           ./current-host.nix 
           nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              enable = true;
-              # enableRosetta = true;  # for Apple Silicon Macs
-              user = "USER_REPLACE"; # updated by setup script
-              autoMigrate = true;    # migrates existing brew if any
-            };
-          }
         ];
     };
   };

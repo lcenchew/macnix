@@ -1,13 +1,29 @@
 #!/bin/bash
 
-# 1. Detect Hardware Type
+# 1. Set variables based on default or user input 
+# a. Hardware Model
 MODEL=$(sysctl -n hw.model)
 if [[ $MODEL == *"MacBook"* ]]; then
     DETECTED="macbook"
 else
     DETECTED="macmini"
 fi
+echo "Detected hardware: $MODEL"
+read -p "Use config for: (macbook/macmini) [$DETECTED]: " SELECTION
+SELECTION=${SELECTION:-$DETECTED}
 
+# b. User
+DEFAULT_USER=$(whoami)
+echo "Detected user: $DEFAULT_USER"
+read -p "Enter your macOS Username [$DEFAULT_USER]: " USERNAME
+USERNAME=${USERNAME:-$DEFAULT_USER}
+
+# c. Homebrew prefix path (install folder)
+DEFAULT_BREW="/opt/homebrew"
+read -p "Enter Homebrew install path [$DEFAULT_BREW]: " BREW_PREFIX
+BREW_PREFIX=${BREW_PREFIX:-$DEFAULT_BREW}
+
+# d. Platform 
 ARCH=$(uname -m)
 if [[ "$ARCH" == "arm64" ]]; then
     PLATFORM="aarch64-darwin"
@@ -15,32 +31,22 @@ else
     PLATFORM="x86_64-darwin"
 fi
 
-echo "--- Hardware Detection ---"
-echo "Detected hardware: $MODEL"
-read -p "Use config for: (macbook/macmini) [$DETECTED]: " SELECTION
-SELECTION=${SELECTION:-$DETECTED}
-
-# 2. Identify Username
-DEFAULT_USER=$(whoami)
-read -p "Enter your macOS Username [$DEFAULT_USER]: " USERNAME
-USERNAME=${USERNAME:-$DEFAULT_USER}
-
-# 3. File Operations
+# 2. File Operations
 echo "
-Preparing configuration for $SELECTION..."
+Preparing configuration from $SELECTION..."
 
 # Copy the template to the active filename
 cp "${SELECTION}.nix" current-host.nix
 
 # Replace the username in flake.nix
-# Note: We use a temp file or sed -i '' for macOS compatibility
-sed -i '' "s/user = \".*\"/user = \"$USERNAME\"/" flake.nix
 
 # Replace the hostPlatform and primaryUser in current-host.nix
 sed -i '' "s/hostPlatform = \".*\"/hostPlatform = \"$PLATFORM\"/" current-host.nix
-sed -i '' "s/primaryUser = \".*\"/primaryUser = \"$USERNAME\"/" current-host.nix
+sed -i '' "s/USER_REPLACE/$USERNAME/g" current-host.nix
+sed -i '' "s|HOMEBREW_PREFIX_REPLACE|$BREW_PREFIX|g" current-host.nix
 
-# 4. Activation
+
+# 3. Activation
 echo "Applying Nix configuration..."
 sudo -H nix run nix-darwin -- switch --flake "path:.#current-host"
 
