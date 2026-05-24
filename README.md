@@ -64,6 +64,6 @@ Some basics to maintain and manage the system after installing.
 
 ```
 cd .config/nix-config
-nix flake update
-sudo darwin-rebuild switch --flake .#current-host
+sudo -H nix flake update
+sudo -H darwin-rebuild switch --flake .#current-host
 ```
