@@ -29,5 +29,11 @@
   };
 
   # Add Homebrew Applications for Mac Mini only here
-  # homebrew.casks = [ "" ];
+  # (Listed for my convenience. Edit accordingly. )
+  homebrew.casks = [ 
+    "iterm2"
+    "keepassxc"
+    "antigravity"
+    "google-drive"
+  ];
 }
