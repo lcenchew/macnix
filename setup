@@ -1,12 +1,17 @@
 #!/bin/bash
 
+# Exit immediately if any command exits with a non-zero status
+set -e
+
 # 1. Set variables based on default or user input 
 # a. Hardware Model
 MODEL=$(sysctl -n hw.model)
 if [[ $MODEL == *"MacBook"* ]]; then
     DETECTED="macbook"
+    DEFAULT_BREW="/opt/homebrew" # MacBook defaults to internal storage
 else
     DETECTED="macmini"
+    DEFAULT_BREW="/nix/homebrew" # Mac Mini defaults to external storage
 fi
 echo "Detected hardware: $MODEL"
 read -p "Use config for: (macbook/macmini) [$DETECTED]: " SELECTION
@@ -19,7 +24,6 @@ read -p "Enter your macOS Username [$DEFAULT_USER]: " USERNAME
 USERNAME=${USERNAME:-$DEFAULT_USER}
 
 # c. Homebrew prefix path (install folder)
-DEFAULT_BREW="/opt/homebrew"
 read -p "Enter Homebrew install path [$DEFAULT_BREW]: " BREW_PREFIX
 BREW_PREFIX=${BREW_PREFIX:-$DEFAULT_BREW}
 
@@ -41,15 +45,26 @@ cp "${SELECTION}.nix" current-host.nix
 # Replace the username in flake.nix
 
 # Replace the hostPlatform and primaryUser in current-host.nix
-sed -i '' "s/hostPlatform = \".*\"/hostPlatform = \"$PLATFORM\"/" current-host.nix
-sed -i '' "s/USER_REPLACE/$USERNAME/g" current-host.nix
+sed -i '' "s|PLATFORM_REPLACE|$PLATFORM|g" current-host.nix
+sed -i '' "s|USER_REPLACE|$USERNAME|g" current-host.nix
 sed -i '' "s|HOMEBREW_PREFIX_REPLACE|$BREW_PREFIX|g" current-host.nix
-
 
 # 3. Activation
 echo "Applying Nix configuration..."
+set +e
 sudo -H nix run nix-darwin -- switch --flake "path:.#current-host"
+ACTIVATION_STATUS=$?
+set -e
 
-echo "
-Done! Machine configured as current-host using $SELECTION.nix
+# Only report success if the exit code returns success (0)
+if [ $ACTIVATION_STATUS -eq 0 ]; then
+    echo "
+✨ Done! Machine configured as current-host using $SELECTION.nix
 "
+else
+    echo "
+❌ Error: Nix configuration activation failed! 
+Review any error messages above. System settings were not altered.
+"
+    exit 1
+fi
