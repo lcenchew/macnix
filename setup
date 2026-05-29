@@ -35,6 +35,11 @@ else
     PLATFORM="x86_64-darwin"
 fi
 
+# e. Prompt for Widget Removal (Defaults to No)
+read -p "Remove default macOS desktop widgets? (y/N): " REMOVE_WIDGETS_INPUT
+# Convert input to lowercase for robust matching
+REMOVE_WIDGETS_INPUT=$(echo "$REMOVE_WIDGETS_INPUT" | tr '[:upper:]' '[:lower:]')
+
 # 2. File Operations
 echo "
 Preparing configuration from $SELECTION..."
@@ -58,9 +63,28 @@ set -e
 
 # Only report success if the exit code returns success (0)
 if [ $ACTIVATION_STATUS -eq 0 ]; then
+
+    # Remove all widgets if requested
+    if [[ "$REMOVE_WIDGETS_INPUT" == "y" || "$REMOVE_WIDGETS_INPUT" == "yes" ]]; then
+        echo "Removing all widgets ..."
+      
+        CONTAINER_PLIST="$HOME/Library/Containers/com.apple.notificationcenterui/Data/Library/Preferences/com.apple.notificationcenterui.plist"
+        
+        if [ -f "$CONTAINER_PLIST" ]; then
+            defaults write "$CONTAINER_PLIST" widgets -dict-add instances '()'
+            defaults write "$CONTAINER_PLIST" widgets -dict-add DesktopWidgetPlacementStorage '()'
+            defaults read "$CONTAINER_PLIST" > /dev/null
+            killall NotificationCenter chronod WindowManager 2>/dev/null || true
+            echo "All widgets removed."
+        else
+            echo "NotificationCenter preference file not found. Skipping ..."
+        fi
+    fi
+
     echo "
 ✨ Done! Machine configured as current-host using $SELECTION.nix
 "
+
 else
     echo "
 ❌ Error: Nix configuration activation failed! 
