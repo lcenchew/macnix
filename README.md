@@ -90,10 +90,10 @@ macOS protects the root directory using Signed System Volumes (SSV). Use /etc/sy
 ```
 .
 ├── flake.nix          # Standardized to look for current-host.nix
-├── common.nix         # Shared settings
-├── macbook.nix        # nix file for macbook 
-├── macmini.nix        # nix file for macmini
-├── current-host.nix   # created by apply (in .gitignore)
+├── common.nix         # Shared settings across all hardware type
+├── macbook.nix        # Settings for macbook 
+├── macmini.nix        # Settings for macmini
+├── current-host.nix   # Created based on setup parameters (not committed, .gitignore)
 └── setup              # The setup logic
 ```
 
