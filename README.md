@@ -111,8 +111,15 @@ Some basics to maintain and manage the system after installing.
 
 ### Update
 
-```
-cd .config/nix-config
-sudo -H nix flake update
-sudo -H darwin-rebuild switch --flake .#current-host
-```
+- Determinate Nix
+  See https://github.com/DeterminateSystems/nix-installer#upgrading-determinate-nix
+  ```
+  sudo determinate-nixd upgrade
+  ```
+   
+- flake
+  ```
+  cd .config/nix-config
+  sudo -H nix flake update
+  sudo -H darwin-rebuild switch --flake .#current-host
+  ```
