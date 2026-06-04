@@ -39,10 +39,5 @@
     darwinConfigurations."simple" = nix-darwin.lib.darwinSystem {
       modules = [ configuration ];
     };
-
-    templates.default = {  
-      path = ./.;
-      description = "MacNix template";
-    };
   };
 }
