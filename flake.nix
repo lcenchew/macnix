@@ -16,5 +16,9 @@
           nix-homebrew.darwinModules.nix-homebrew
         ];
     };
+      templates.default = {
+      path = ./modules/examples/flake;
+      description = "nix flake init -t macnix";
+    };
   };
 }
