@@ -35,7 +35,7 @@
     # Allow to pull this file as a template from github
     # `nix flake init -t "github:lcenchew/macnix"` 
     templates.default = {
-      path = ./;
+      path = ./.;
       description = "Template for https://github.com/lcenchew/macnix";
     }; 
   };
