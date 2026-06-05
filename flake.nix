@@ -20,9 +20,12 @@
           environment.systemPackages = [
             pkgs.brave
             pkgs.vscode
+            pkgs.tailscale
             pkgs.git
             pkgs.htop
           ];
+
+          services.tailscale.enable = true;
 
           # Set compatibility state version (do not change once deployed)
           # For latest value, check `system.stateVersion` in 
