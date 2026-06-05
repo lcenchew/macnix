@@ -27,6 +27,8 @@
 
           services.tailscale.enable = true;
 
+          system.primaryUser = "whoami";        # update username here
+
           # Set compatibility state version (do not change once deployed)
           # For latest value, check `system.stateVersion` in 
           # https://github.com/nix-darwin/nix-darwin/blob/master/modules/system/version.nix
