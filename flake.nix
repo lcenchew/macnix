@@ -10,9 +10,12 @@
   outputs = { self, nix-darwin, nixpkgs }: {
     # use this to setup:  `sudo -H nix run nix-darwin -- switch --flake .#janmacbook`
     darwinConfigurations."janmacbook" = nix-darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
       modules = [
         ({ pkgs, ... }: {
+          nixpkgs.hostPlatform = "aarch64-darwin";
+          # Allow proprietary packages
+          nixpkgs.config.allowUnfree = true;
+
           # Define system-wide packages for all users
           environment.systemPackages = [
             pkgs.brave
@@ -20,9 +23,6 @@
             pkgs.git
             pkgs.htop
           ];
-
-          # Allow proprietary packages
-          nixpkgs.config.allowUnfree = true;
 
           # Set compatibility state version (do not change once deployed)
           # For latest value, check `system.stateVersion` in 
