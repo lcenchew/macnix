@@ -9,7 +9,7 @@ Use this repository to setup a new macOS using Nix, [flakes](https://wiki.nixos.
    From https://nix.dev/manual/nix/latest/installation/installing-binary.html
 
    ```
-   $ curl -L https://nixos.org/nix/install | sh
+   curl -L https://nixos.org/nix/install | sh
    ```
 
 2. Install xcode-select 
