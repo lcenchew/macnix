@@ -20,16 +20,25 @@ Use this repository to setup a new macOS using Nix, [flakes](https://wiki.nixos.
    softwareupdate -i -a --agree-to-license
    ```
 
-3. Create a `flake.nix` and update accordingly. Use a template from this repo: `nix flake init -t github:lcenchew/macnix/branch#template-name`
+3. Create a `flake.nix` and update accordingly. 
 
+   Enable the "experimental-features"
+   ```
+   mkdir -p ~/.config/nix
+   cd ~/.config/nix
+   echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+   ```
+
+   Use a template from this repo: `nix flake init -t github:lcenchew/macnix/branch#template-name`
    ```
    nix flake init -t github:lcenchew/macnix
    ```
 
-4. For `nix-darwin`, use the latest `system.stateVersion` if start from scratch (currently 7).
+
+5. For `nix-darwin`, use the latest `system.stateVersion` if start from scratch (currently 7).
    See https://github.com/nix-darwin/nix-darwin/blob/master/modules/system/version.nix
 
-5. Run the setup
+6. Run the setup
 
    ```
    sudo -H nix run nix-darwin -- switch --flake .#janmacbook
@@ -37,7 +46,7 @@ Use this repository to setup a new macOS using Nix, [flakes](https://wiki.nixos.
 
    Note that `.#janmacbook` should be the same value as the value of `darwinConfigurations."janmacbook"` in flake.nix. Suggested to use the hostname from `hostname -s`.
  
-6. Once installation is completed, reload the shell or open another terminal to start using Nix.
+7. Once installation is completed, reload the shell or open another terminal to start using Nix.
 
    ```
    exec zsh
