@@ -22,15 +22,15 @@ Use this repository to setup a new macOS using Nix, [flakes](https://wiki.nixos.
 
 3. Create a `flake.nix` and update accordingly. 
 
-   Enable the "experimental-features"
+   Enable the "experimental-features" in /etc/nix/nix.conf
    ```
-   mkdir -p ~/.config/nix
-   cd ~/.config/nix
-   echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+   echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
    ```
 
    Use a template from this repo: `nix flake init -t github:lcenchew/macnix/branch#template-name`
    ```
+   mkdir -p ~/.config/nix
+   cd ~/.config/nix
    nix flake init -t github:lcenchew/macnix
    ```
 
